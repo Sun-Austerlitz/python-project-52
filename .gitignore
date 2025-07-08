@@ -1,0 +1,13 @@
+# Это django project добавь в .gitignore
+# Папка с виртуальным окружением
+.venv/
+# Папка с миграциями
+migrations/
+# *.pyc файлы
+*.pyc
+# Папка с кэшем
+__pycache__/
+# .env файл
+.env
+# db файл1
+db.sqlite3
