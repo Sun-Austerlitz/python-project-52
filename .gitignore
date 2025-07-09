@@ -9,3 +9,5 @@ migrations/
 __pycache__/
 # .env файл
 .env
+# db файл1
+db.sqlite3
