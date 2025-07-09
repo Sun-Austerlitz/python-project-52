@@ -23,23 +23,51 @@
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav">
+          <ul class="navbar-nav align-items-center">
             <li class="nav-item">
               <a class="nav-link" href="/users/">Пользователи</a>
             </li>
+            {% if user.is_authenticated %}
             <li class="nav-item">
-              <a class="nav-link" href="/login/">Вход</a>
+              <form method="post" action="{% url 'logout' %}" class="d-inline">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-link nav-link p-0">
+                  Выход
+                </button>
+              </form>
+            </li>
+            {% else %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'login' %}">Вход</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/users/create/">Регистрация</a>
+              <a class="nav-link" href="{% url 'user_create' %}">Регистрация</a>
             </li>
+            {% endif %}
           </ul>
         </div>
       </div>
     </nav>
-    <div class="container mt-4 flex-grow-1">
-      {% block content %}{% endblock %}
+    <div class="container mt-3">
+      {% if messages %}
+        {% for message in messages %}
+          {% if message.tags == "error" %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          {% elif message.tags == "success" %}
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+          {% elif message.tags == "info" %}
+            <div class="alert alert-info alert-dismissible fade show" role="alert">
+          {% else %}
+            <div class="alert alert-secondary alert-dismissible fade show" role="alert">
+          {% endif %}
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        {% endfor %}
+      {% endif %}
     </div>
+    </div>
+    <div class="container flex-grow-1">{% block content %}{% endblock %}</div>
     <footer class="mt-auto">
       <div class="container my-5 pt-4 border-top">
         <a target="_blank" href="https://ru.hexlet.io">Hexlet</a>
