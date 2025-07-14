@@ -25,7 +25,11 @@ SECRET_KEY = "django-insecure-_=4is3+2c5fla#ntdr6c0@9!na_o_36jw=7#=s+@(ndcx#^77=
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["webserver", "127.0.0.1", "python-project-52-73nf.onrender.com"]
+ALLOWED_HOSTS = [
+    "webserver",
+    "127.0.0.1",
+    "python-project-52-73nf.onrender.com",
+]
 
 
 # Application definition
@@ -41,6 +45,7 @@ INSTALLED_APPS = [
     "users",
     "statuses",
     "tasks",
+    "labels",
 ]
 
 MIDDLEWARE = [
@@ -131,5 +136,5 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "/"

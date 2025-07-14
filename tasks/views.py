@@ -9,6 +9,8 @@ from django.views.generic import (
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
 from django.contrib import messages
+
+from labels.models import Label
 from .models import Task
 from .forms import TaskForm
 from statuses.models import Status
@@ -50,8 +52,7 @@ class TaskListView(LoginRequiredMixin, ListView):
         context["users"] = User.objects.filter(
             id__in=Task.objects.values_list("executor", flat=True).distinct()
         )
-        # Добавьте метки, если они есть в вашем проекте
-        context["labels"] = []  # Пример: Label.objects.all()
+        context["labels"] = Label.objects.all()
         return context
 
 

@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from labels.models import Label
 from statuses.models import Status
 
 
@@ -28,6 +29,12 @@ class Task(models.Model):
     created_at = models.DateTimeField(
         auto_now_add=True,
         verbose_name="Дата создания",
+    )
+    labels = models.ManyToManyField(
+        Label,
+        blank=True,
+        related_name="tasks",
+        verbose_name="Метки",
     )
 
     def __str__(self):
