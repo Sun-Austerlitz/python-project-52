@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ task.name }}{% endblock %}
+
+{% block content %}
+<h1 class="my-4">{{ task.name }}</h1>
+<p><strong>Описание:</strong> {{ task.description }}</p>
+<p><strong>Статус:</strong> {{ task.status }}</p>
+<p><strong>Автор:</strong> {{ task.author }}</p>
+<p><strong>Исполнитель:</strong> {{ task.executor }}</p>
+<p><strong>Дата создания:</strong> {{ task.created_at|date:"d.m.Y H:i" }}</p>
+<a href="{% url 'task_update' task.pk %}" class="btn btn-primary">Изменить</a>
+<a href="{% url 'task_delete' task.pk %}" class="btn btn-danger">Удалить</a>
+{% endblock %}

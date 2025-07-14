@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  {% if view.object %}
+    Изменение задачи
+  {% else %}
+    Создание задачи
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+<h1 class="my-4">
+  {% if view.object %}
+    Изменение задачи
+  {% else %}
+    Создать задачу
+  {% endif %}
+</h1>
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <input class="btn btn-primary" type="submit" value="{% if view.object %}Изменить{% else %}Создать{% endif %}">
+</form>
+{% endblock %}
