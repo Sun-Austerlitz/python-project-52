@@ -8,6 +8,5 @@
 <form method="post">
   {% csrf_token %}
   <input class="btn btn-danger" type="submit" value="Да, удалить">
-  <a href="{% url 'user_list' %}" class="btn btn-secondary">Отмена</a>
 </form>
 {% endblock %}

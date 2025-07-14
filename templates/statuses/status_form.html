@@ -1,0 +1,42 @@
+<!-- filepath: /home/sun_austerlitz/projects/python-project-52/templates/statuses/status_form.html -->
+{% extends 'base.html' %}
+
+{% block title %}
+  {% if view.object %}
+    Изменение статуса
+  {% else %}
+    Создание статуса
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+<h1 class="my-4">
+  {% if view.object %}
+    Изменение статуса
+  {% else %}
+    Создать статус
+  {% endif %}
+</h1>
+<form method="post">
+  {% csrf_token %}
+  <div class="mb-3">
+    <label class="form-label" for="id_name">Имя</label>
+    <input
+      type="text"
+      name="name"
+      value="{{ form.name.value|default_if_none:'' }}"
+      maxlength="100"
+      class="form-control"
+      placeholder="Имя"
+      required
+      id="id_name"
+    />
+    {% if form.name.errors %}
+      <div class="text-danger">
+        {{ form.name.errors|first }}
+      </div>
+    {% endif %}
+  </div>
+  <input class="btn btn-primary" type="submit" value="{% if view.object %}Изменить{% else %}Создать{% endif %}">
+</form>
+{% endblock %}
