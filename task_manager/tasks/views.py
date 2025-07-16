@@ -10,17 +10,19 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
 from django.contrib import messages
 
-from labels.models import Label
+from task_manager.labels.models import Label
 from .models import Task
 from .forms import TaskForm
-from statuses.models import Status
+from task_manager.statuses.models import Status
 from django.contrib.auth.models import User
+from .filters import TaskFilter
 
 
 class TaskListView(LoginRequiredMixin, ListView):
     model = Task
     template_name = "tasks/task_list.html"
     context_object_name = "tasks"
+    filterset_class = TaskFilter
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -89,12 +91,20 @@ class TaskDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return self.get_object().author == self.request.user
 
     def handle_no_permission(self):
-        messages.error(self.request, "Вы не можете удалить эту задачу.")
+        # Вывод сообщения об ошибке и перенаправление на список задач
+        messages.error(self.request, "Задачу может удалить только ее автор")
         return redirect("task_list")
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
-        messages.success(self.request, "Задача успешно удалена")
+        # Проверяем, что пользователь действительно автор задачи
+        if self.object.author != request.user:
+            messages.error(
+                self.request,
+                "Задачу может удалить только ее автор",
+            )
+            return redirect("task_list")
+        messages.success(self.request, "Задача успешно удалена.")
         return super().post(request, *args, **kwargs)
 
 

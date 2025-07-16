@@ -18,7 +18,8 @@ class CustomLoginView(LoginView):
     def form_invalid(self, form):
         messages.error(
             self.request,
-            "Пожалуйста, введите правильные имя пользователя и пароль. Оба поля могут быть чувствительны к регистру.",
+            "Пожалуйста, введите правильные имя пользователя и пароль. "
+            "Оба поля могут быть чувствительны к регистру.",
         )
         return super().form_invalid(form)
 
@@ -68,7 +69,8 @@ class UserUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
             return HttpResponseRedirect(reverse("login"))
         else:
             messages.error(
-                self.request, "У вас нет прав для изменения другого пользователя."
+                self.request,
+                "У вас нет прав для изменения другого пользователя.",
             )
             return HttpResponseRedirect(reverse("user_list"))
 
@@ -87,13 +89,26 @@ class UserDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return self.get_object() == self.request.user
 
     def handle_no_permission(self):
+        # Если пользователь не авторизован, перенаправляем на страницу логина
+        if not self.request.user.is_authenticated:
+            messages.error(
+                self.request, "Вы не авторизованы! Пожалуйста, выполните вход."
+            )
+            return redirect("login")
+        # Если пользователь пытается удалить другого пользователя
         messages.error(
-            self.request, "У вас нет прав для удаления другого пользователя."
+            self.request, "У вас нет прав для изменения другого пользователя."
         )
         return redirect("user_list")
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
-        # Здесь можно добавить проверку на использование пользователя в других моделях
+        # Проверяем, что пользователь действительно удаляет свои данные
+        if self.object != request.user:
+            messages.error(
+                self.request,
+                "У вас нет прав для изменения другого пользователя.",
+            )
+            return redirect("user_list")
         messages.success(self.request, "Пользователь успешно удален.")
         return super().post(request, *args, **kwargs)

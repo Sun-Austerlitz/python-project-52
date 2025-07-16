@@ -1,0 +1,28 @@
+[
+  {
+    "model": "auth.user",
+    "pk": 1,
+    "fields": {
+      "username": "lawrencekulas",
+      "first_name": "Lawrence",
+      "last_name": "Kulas",
+      "is_active": true,
+      "is_staff": false,
+      "is_superuser": false,
+      "password": "pbkdf2_sha256$260000$examplehashedpassword"
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 2,
+    "fields": {
+      "username": "seconduser",
+      "first_name": "Second",
+      "last_name": "User",
+      "is_active": true,
+      "is_staff": false,
+      "is_superuser": false,
+      "password": "pbkdf2_sha256$260000$examplehashedpassword"
+    }
+  }
+]

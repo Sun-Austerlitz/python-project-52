@@ -1,14 +1,58 @@
 {% extends 'base.html' %}
 
-{% block title %}{{ task.name }}{% endblock %}
+{% block title %}Просмотр задачи{% endblock %}
 
 {% block content %}
-<h1 class="my-4">{{ task.name }}</h1>
-<p><strong>Описание:</strong> {{ task.description }}</p>
-<p><strong>Статус:</strong> {{ task.status }}</p>
-<p><strong>Автор:</strong> {{ task.author }}</p>
-<p><strong>Исполнитель:</strong> {{ task.executor }}</p>
-<p><strong>Дата создания:</strong> {{ task.created_at|date:"d.m.Y H:i" }}</p>
-<a href="{% url 'task_update' task.pk %}" class="btn btn-primary">Изменить</a>
-<a href="{% url 'task_delete' task.pk %}" class="btn btn-danger">Удалить</a>
+<h1 class="my-4">Просмотр задачи</h1>
+
+<div class="card">
+  <div class="card-header bg-secondary text-white">
+    <h2>Задача: {{ task.name }}</h2>
+  </div>
+  <div class="card-body bg-light">
+    <p>{{ task.description }}</p>
+    <hr>
+    <div class="container">
+      <div class="row p-1">
+        <div class="col">Автор</div>
+        <div class="col">{{ task.author.get_full_name }}</div>
+      </div>
+      <div class="row p-1">
+        <div class="col">Исполнитель</div>
+        <div class="col">
+          {% if task.executor %}
+            {{ task.executor.get_full_name }}
+          {% else %}
+            —
+          {% endif %}
+        </div>
+      </div>
+      <div class="row p-1">
+        <div class="col">Статус</div>
+        <div class="col">{{ task.status }}</div>
+      </div>
+      <div class="row p-1">
+        <div class="col">Дата создания</div>
+        <div class="col">{{ task.created_at|date:"d.m.Y H:i" }}</div>
+      </div>
+      <div class="row p-1">
+        <div class="col">
+          <h6>Метки:</h6>
+          <ul>
+            {% for label in task.labels.all %}
+              <li>{{ label.name }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+      <div class="row p-1">
+        <div class="col">
+          <a href="{% url 'task_update' task.pk %}">Изменить</a>
+          <br>
+          <a href="{% url 'task_delete' task.pk %}">Удалить</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}

@@ -1,3 +1,4 @@
+<!-- filepath: /home/sun_austerlitz/projects/python-project-52/templates/tasks/task_form.html -->
 {% extends 'base.html' %}
 
 {% block title %}
@@ -18,7 +19,72 @@
 </h1>
 <form method="post">
   {% csrf_token %}
-  {{ form.as_p }}
+  <div class="mb-3">
+    <label class="form-label" for="id_name">Имя</label>
+    <input
+      type="text"
+      name="name"
+      value="{{ form.name.value|default_if_none:'' }}"
+      maxlength="150"
+      class="form-control"
+      placeholder="Имя"
+      required
+      id="id_name"
+    />
+  </div>
+  <div class="mb-3">
+    <label class="form-label" for="id_description">Описание</label>
+    <textarea
+      name="description"
+      cols="40"
+      rows="10"
+      class="form-control"
+      placeholder="Описание"
+      id="id_description"
+    >{{ form.description.value|default_if_none:'' }}</textarea>
+  </div>
+  <div class="mb-3">
+    <label class="form-label" for="id_status">Статус</label>
+    <select
+      name="status"
+      class="form-select"
+      required
+      id="id_status"
+    >
+      <option value="" {% if not form.status.value %}selected{% endif %}>---------</option>
+      {% for status in form.status.field.queryset %}
+      <option value="{{ status.id }}" {% if status.id|stringformat:"s" == form.status.value|stringformat:"s" %}selected{% endif %}>{{ status.name }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="mb-3">
+    <label class="form-label" for="id_executor">Исполнитель</label>
+    <select
+      name="executor"
+      class="form-select"
+      id="id_executor"
+    >
+      <option value="" {% if not form.executor.value %}selected{% endif %}>---------</option>
+      {% for user in form.executor.field.queryset %}
+      <option value="{{ user.id }}" {% if user.id|stringformat:"s" == form.executor.value|stringformat:"s" %}selected{% endif %}>{{ user.get_full_name }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="mb-3">
+    <label class="form-label" for="id_labels">Метки</label>
+    <select
+      name="labels"
+      class="form-select"
+      id="id_labels"
+      multiple
+    >
+      {% for label in form.labels.field.queryset %}
+      <option value="{{ label.id }}" {% if label.id|stringformat:"s" in form.labels.value|stringformat:"s" %}selected{% endif %}>
+        {{ label.name }}
+      </option>
+      {% endfor %}
+    </select>
+  </div>
   <input class="btn btn-primary" type="submit" value="{% if view.object %}Изменить{% else %}Создать{% endif %}">
 </form>
 {% endblock %}

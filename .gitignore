@@ -1,8 +1,6 @@
 # Это django project добавь в .gitignore
 # Папка с виртуальным окружением
 .venv/
-# Папка с миграциями
-migrations/
 # *.pyc файлы
 *.pyc
 # Папка с кэшем
