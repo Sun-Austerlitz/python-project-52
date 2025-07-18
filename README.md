@@ -26,8 +26,15 @@ git clone https://github.com/Sun-Austerlitz/python-project-52.git
 cd python-project-52
 ```
 ### 2. Установка зависимости и применение миграции для бд
+
 ```bash
 make build 
+```
+
+Для локального запуска дополнительных настроек не требуется. В продакшене необходимо задать переменную окружения `SECRET_KEY`:
+
+```bash
+export SECRET_KEY=your-production-secret-key
 ```
 
 ### 3. Запуск приложения

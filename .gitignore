@@ -9,3 +9,7 @@ __pycache__/
 .env
 # db файл1
 db.sqlite3
+# .vscode настройки
+.vscode/
+# .ruff_cache
+.ruff_cache/
