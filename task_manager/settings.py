@@ -25,8 +25,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
-SECRET_KEY = os.getenv("SECRET_KEY", "default-secret-key")
+SECRET_KEY = os.getenv("SECRET_KEY")
 DEBUG = os.getenv("DEBUG", "False") == "True"
+if not SECRET_KEY:
+    if DEBUG:
+        SECRET_KEY = "dev-secret-key"
+    else:
+        raise ValueError("SECRET_KEY environment variable is not set")
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "").split(",") + ["webserver"]
 
 
